@@ -1,7 +1,9 @@
 package com.example.sitemap.service;
 
 import com.example.sitemap.Config;
+import com.example.sitemap.sitemapcreator.ChangeFreq;
 import com.example.sitemap.sitemapcreator.WebSitemapGenerator;
+import com.example.sitemap.sitemapcreator.WebSitemapUrl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,8 +35,9 @@ public class CreateSitemap {
                 myDir.mkdirs();
             }
             WebSitemapGenerator wsg = new WebSitemapGenerator(baseURL, myDir);
+            WebSitemapUrl sitemapIndexUrl = new WebSitemapUrl.Options(resURL).changeFreq(ChangeFreq.WEEKLY).build();
 
-            wsg.addUrl(resURL); // repeat multiple times
+            wsg.addUrl(sitemapIndexUrl); // repeat multiple times
 
             wsg.write();
             wsg.writeSitemapsWithIndex();
@@ -66,7 +69,8 @@ public class CreateSitemap {
             }
             WebSitemapGenerator wsg = new WebSitemapGenerator(baseURL, myDir);
             for(String resURL:resURLs) {
-                wsg.addUrl(resURL); // repeat multiple times
+                WebSitemapUrl sitemapIndexUrl = new WebSitemapUrl.Options(resURL).changeFreq(ChangeFreq.WEEKLY).build();
+                wsg.addUrl(sitemapIndexUrl); // repeat multiple times
             }
             wsg.write();
             wsg.writeSitemapsWithIndex();
